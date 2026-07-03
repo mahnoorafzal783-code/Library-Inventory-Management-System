@@ -1,0 +1,99 @@
+# ==========================================
+# Library Inventory Management System
+# Bano Qabil - Digital Skills Program
+# Main Program
+# ==========================================
+
+from book_management import add_book, find_book
+from library_operations import borrow_book, return_book, display_all_books
+from file_handling import get_available_books, save_to_file, load_from_file
+
+
+FILENAME = "books.txt"
+
+
+def menu():
+    print("\n==========================================")
+    print("     Library Inventory Management System")
+    print("==========================================")
+    print("1. Add Book")
+    print("2. Find Book")
+    print("3. Borrow Book")
+    print("4. Return Book")
+    print("5. Display All Books")
+    print("6. Display Available Books")
+    print("7. Save Books to File")
+    print("8. Load Books from File")
+    print("9. Exit")
+    print("==========================================")
+
+
+def main():
+
+    books_list = []
+
+    while True:
+
+        menu()
+
+        choice = input("Enter your choice (1-9): ")
+
+        if choice == "1":
+            add_book(books_list)
+
+        elif choice == "2":
+            try:
+                book_id = int(input("Enter Book ID: "))
+                book = find_book(books_list, book_id)
+
+                if book:
+                    print("\nBook Found")
+                    print("-----------------------------")
+                    print(f"Book ID : {book['id']}")
+                    print(f"Title   : {book['title']}")
+                    print(f"Author  : {book['author']}")
+                    print(f"Year    : {book['year']}")
+                    print(f"Status  : {'Available' if book['status'] else 'Borrowed'}")
+                else:
+                    print("Book not found.")
+
+            except ValueError:
+                print("Invalid Book ID!")
+
+        elif choice == "3":
+            borrow_book(books_list)
+
+        elif choice == "4":
+            return_book(books_list)
+
+        elif choice == "5":
+            display_all_books(books_list)
+
+        elif choice == "6":
+            available_books = get_available_books(books_list)
+
+            if available_books:
+                print("\nAvailable Books")
+                print("-----------------------------")
+                for book in available_books:
+                    print(f"{book['id']} - {book['title']} by {book['author']}")
+            else:
+                print("No books are available.")
+
+        elif choice == "7":
+            save_to_file(books_list, FILENAME)
+
+        elif choice == "8":
+            books_list = load_from_file(FILENAME)
+
+        elif choice == "9":
+            print("\nThank you for using Library Inventory Management System.")
+            print("Goodbye!")
+            break
+
+        else:
+            print("Invalid choice! Please select from 1 to 9.")
+
+
+if __name__ == "__main__":
+    main()
