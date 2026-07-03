@@ -1,0 +1,79 @@
+# ==========================================
+# File Handling Module
+# Library Inventory Management System
+# Bano Qabil - Digital Skills Program
+# ==========================================
+
+def get_available_books(books_list):
+    """
+    Return a list of available books.
+    """
+    available_books = []
+
+    for book in books_list:
+        if book["status"]:
+            available_books.append(book)
+
+    return available_books
+
+
+def save_to_file(books_list, filename):
+    """
+    Save all books to a text file.
+    """
+
+    try:
+        with open(filename, "w") as file:
+
+            for book in books_list:
+                line = (
+                    f'{book["id"]},'
+                    f'{book["title"]},'
+                    f'{book["author"]},'
+                    f'{book["year"]},'
+                    f'{book["status"]}\n'
+                )
+
+                file.write(line)
+
+        print("Books saved successfully.")
+
+    except Exception as e:
+        print("Error while saving file:", e)
+
+
+def load_from_file(filename):
+    """
+    Load books from a text file.
+    """
+
+    books_list = []
+
+    try:
+        with open(filename, "r") as file:
+
+            for line in file:
+
+                data = line.strip().split(",")
+
+                if len(data) == 5:
+
+                    book = {
+                        "id": int(data[0]),
+                        "title": data[1],
+                        "author": data[2],
+                        "year": int(data[3]),
+                        "status": data[4] == "True"
+                    }
+
+                    books_list.append(book)
+
+        print("Books loaded successfully.")
+
+    except FileNotFoundError:
+        print("No saved file found. Starting with an empty library.")
+
+    except Exception as e:
+        print("Error while loading file:", e)
+
+    return books_list
