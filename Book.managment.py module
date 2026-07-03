@@ -1,0 +1,59 @@
+# ==========================================
+# Book Management Module
+# Library Inventory Management System
+# Bano Qabil - Digital Skills Program
+# ==========================================
+
+def add_book(books_list):
+    """
+    Add one or more books to the library.
+    """
+
+    while True:
+
+        try:
+            book_id = int(input("Enter Book ID: "))
+
+            # Check if Book ID already exists
+            for book in books_list:
+                if book["id"] == book_id:
+                    print("Book ID already exists!")
+                    break
+            else:
+                title = input("Enter Book Title: ")
+                author = input("Enter Author Name: ")
+                year = int(input("Enter Year Published: "))
+
+                new_book = {
+                    "id": book_id,
+                    "title": title,
+                    "author": author,
+                    "year": year,
+                    "status": True
+                }
+
+                books_list.append(new_book)
+
+                print("Book added successfully!")
+
+        except ValueError:
+            print("Invalid input! Please enter valid data.")
+
+        choice = input("\nDo you want to add another book? (y/n): ").lower()
+
+        if choice != "y":
+            break
+
+
+def find_book(books_list, book_id):
+    """
+    Search for a book using its Book ID.
+    Returns the book dictionary if found,
+    otherwise returns None.
+    """
+
+    for book in books_list:
+        if book["id"] == book_id:
+            return book
+
+    return None
