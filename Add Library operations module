@@ -1,0 +1,79 @@
+# ==========================================
+# Library Operations Module
+# Library Inventory Management System
+# Bano Qabil - Digital Skills Program
+# ==========================================
+
+def borrow_book(books_list):
+    """
+    Borrow a book by Book ID.
+    """
+
+    try:
+        book_id = int(input("Enter Book ID to borrow: "))
+
+        for book in books_list:
+            if book["id"] == book_id:
+
+                if book["status"]:
+                    book["status"] = False
+                    print(f'"{book["title"]}" has been borrowed successfully.')
+                else:
+                    print("This book is already borrowed.")
+
+                return
+
+        print("Book not found.")
+
+    except ValueError:
+        print("Invalid Book ID!")
+
+
+def return_book(books_list):
+    """
+    Return a borrowed book.
+    """
+
+    try:
+        book_id = int(input("Enter Book ID to return: "))
+
+        for book in books_list:
+            if book["id"] == book_id:
+
+                if not book["status"]:
+                    book["status"] = True
+                    print(f'"{book["title"]}" has been returned successfully.')
+                else:
+                    print("This book is already available in the library.")
+
+                return
+
+        print("Book not found.")
+
+    except ValueError:
+        print("Invalid Book ID!")
+
+
+def display_all_books(books_list):
+    """
+    Display all books in the library.
+    """
+
+    if not books_list:
+        print("No books available in the library.")
+        return
+
+    print("\n========== Library Books ==========")
+
+    for book in books_list:
+
+        status = "Available" if book["status"] else "Borrowed"
+
+        print(f"""
+Book ID : {book["id"]}
+Title   : {book["title"]}
+Author  : {book["author"]}
+Year    : {book["year"]}
+Status  : {status}
+-------------------------------
+""")
